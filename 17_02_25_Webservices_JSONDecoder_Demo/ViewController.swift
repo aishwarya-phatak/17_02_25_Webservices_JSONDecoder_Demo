@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     var url : URL?
     var urlRequest : URLRequest?
     var urlSession : URLSession?
+    var users : [User] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +30,11 @@ class ViewController: UIViewController {
         let dataTask = urlSession?.dataTask(with: urlRequest!, completionHandler: { data, response, error in
         
             let jsonDecoder = JSONDecoder()
-            let apiResponse = try! jsonDecoder.decode(APIResponse.self, from: data!)
+            let apiResponse = try! jsonDecoder.decode(APIResponse.self, from: data!) as APIResponse
+            self.users = apiResponse.data
+            
             print(apiResponse)
+            print(self.users)
         })
         dataTask?.resume()
     }
